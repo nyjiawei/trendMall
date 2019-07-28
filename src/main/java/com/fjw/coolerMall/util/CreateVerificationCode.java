@@ -49,18 +49,23 @@ public class CreateVerificationCode{
 	public static Color getReverseColor(Color c) {  
         return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c  
                 .getBlue());  
-    }  
-  
+    }
+
+    /**
+     * 输出验证码
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void write(HttpServletRequest request, HttpServletResponse response)  
             throws ServletException, IOException {  
   
         response.setContentType("image/jpeg");  
         String randomString = getRandomString(); 
         String ip = HttpUtil.getIpAddress(request);
-        //以IP地址区别验证码
-        request.getSession().setAttribute(ip, randomString); 	
-        HttpSession session = request.getSession();
-        //System.out.println(session.getAttribute(ip).toString());
+        //以请求IP地址作为key
+        request.getSession().setAttribute(ip, randomString);
         int width = 90;  
         int height = 30;  
   
@@ -84,8 +89,5 @@ public class CreateVerificationCode{
         encoder.encode(bi);  
         out.flush();  
     }  
-  
-    public static void main(String[] args) {  
-        System.out.println(getRandomString());  
-    }  
+
 }

@@ -2,7 +2,7 @@ package com.fjw.coolerMall.common;
 
 /**
  * @author jiawe
- * @description
+ * @description 公共静态常量
  * @date 2019/7/18
  */
 public class ResMessage {

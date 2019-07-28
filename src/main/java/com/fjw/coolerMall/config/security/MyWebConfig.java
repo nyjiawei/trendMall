@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 /**
  * @author jiawe
- * @description 全局拦截器
+ * @description 拦截器注册
  * @date 2019/6/8
  */
 @Configuration

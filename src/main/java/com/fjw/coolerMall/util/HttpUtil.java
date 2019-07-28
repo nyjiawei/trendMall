@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HttpUtil {
 	
 	/**
-	 * 获取请求地址
+	 * 获取请求IP地址
 	 * @param request 
 	 * @return 对方的ip
 	 */

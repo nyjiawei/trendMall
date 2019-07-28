@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 /**
- * 数据源配置
+ * 数据源配置，可以根据需要配置多个数据源
  * @author jiawei
  * 2018年7月23日下午10:02:24
  */

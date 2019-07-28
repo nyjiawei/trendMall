@@ -1,8 +1,7 @@
 package com.fjw.coolerMall.util;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 /**
  * 订单号工具类

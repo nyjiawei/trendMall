@@ -21,7 +21,7 @@ public class PassWordUtil {
     }
     
     /**
-     * 明文加密
+     * 明文密码加密
      * @param passWord 明文密码
      * @return 密文密码
      */
@@ -38,8 +38,8 @@ public class PassWordUtil {
     }
     /**
      * 验证密码
-     * @param encPass 密文
-     * @param rawPass 明文
+     * @param encPass 密文密码
+     * @param rawPass 明文密码
      * @return
      */
     public boolean isPasswordValid(String encPass, String rawPass) {
@@ -49,6 +49,11 @@ public class PassWordUtil {
         return pass1.equals(pass2);
     }
 
+    /**
+     * 给密码加一撮盐
+     * @param password
+     * @return
+     */
     private String mergePasswordAndSalt(String password) {
         if (password == null) {
             password = "";

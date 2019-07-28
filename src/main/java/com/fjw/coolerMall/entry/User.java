@@ -2,7 +2,7 @@ package com.fjw.coolerMall.entry;
 
 
 /**
- * user实体类
+ * user表
  * @author jiawei
  * 2018年7月29日下午6:26:22
  */

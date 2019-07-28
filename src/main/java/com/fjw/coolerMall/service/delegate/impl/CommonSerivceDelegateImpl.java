@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 public class CommonSerivceDelegateImpl implements CommonSerivceDelegate {
 
 	private static final String arithmetic = "sha-256";
+
 	Logger log = LogManager.getLogger(CommonSerivceDelegateImpl.class);
 	
 	@Autowired
@@ -111,13 +112,15 @@ public class CommonSerivceDelegateImpl implements CommonSerivceDelegate {
 	}
 	
 	/**
-	 * 验证码比较
-	 * @param Code
+	 * 校验验证码
+	 * @param Code 用户输入的验证码
 	 * @return
 	 */
 	private boolean reviewCode(String Code) {
+		//获取请求的IP地址
 		String ip = HttpUtil.getIpAddress(request);
 		HttpSession session = request.getSession();
+		//获取生成图像时保存到session中的验证码
 		String sCode = (String) session.getAttribute(ip);
 		if (StringUtils.isNotEmpty(sCode)) {
 			if (sCode.equalsIgnoreCase(Code)) {

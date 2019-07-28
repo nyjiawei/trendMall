@@ -2,7 +2,9 @@ package com.fjw.coolerMall.model.response;
 
 import java.io.Serializable;
 
-
+/**
+ * 封装公共响应对象
+ */
 public class CommonResponse implements Serializable {
 	private static final long serialVersionUID = -4707714419984617242L;
 	private String message = "SUCCESS";
