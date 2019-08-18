@@ -1,11 +1,10 @@
 package com.fjw.coolerMall.entry;
 
-import java.util.List;
-import java.util.Map;
 
 
 public class Order {
-	private int id;
+
+	private Integer id;
 	
 	private String commodityId;
 	
@@ -24,14 +23,16 @@ public class Order {
 	private String getTime;
 	
 	private String status;
+
+	private String ownerId;
 	
 	private double totalPrices;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -114,4 +115,12 @@ public class Order {
 	public void setTotalPrices(double totalPrices) {
 		this.totalPrices = totalPrices;
 	}
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+
 }

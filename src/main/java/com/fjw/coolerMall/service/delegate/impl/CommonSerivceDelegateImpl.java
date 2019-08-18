@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import com.fjw.coolerMall.Enum.StatusCode;
 import com.fjw.coolerMall.entry.User;
-import com.fjw.coolerMall.mapper.CommodityDao;
-import com.fjw.coolerMall.mapper.UserDao;
+import com.fjw.coolerMall.mapper.CommodityMapper;
+import com.fjw.coolerMall.mapper.UserMapper;
 import com.fjw.coolerMall.model.request.LoginRequest;
 import com.fjw.coolerMall.model.request.Product;
 import com.fjw.coolerMall.model.request.RegisterRequest;
@@ -37,17 +35,17 @@ public class CommonSerivceDelegateImpl implements CommonSerivceDelegate {
 	Logger log = LogManager.getLogger(CommonSerivceDelegateImpl.class);
 	
 	@Autowired
-	private CommodityDao commodityDao;
+	private CommodityMapper commodityMapper;
 	
 	@Autowired
-	private UserDao userDao;
+	private UserMapper userMapper;
 	
 	@Autowired
 	private HttpServletRequest request;	
 
 	@Override
 	public CommonResponse userLogin(LoginRequest data) {
-		User user = userDao.login(data.getUserName());
+		User user = userMapper.login(data.getUserName());
 		if (user == null) {
 			String message = "用户不存在或密码不正确！";
 			return getErrorResponse(message);
@@ -89,7 +87,7 @@ public class CommonSerivceDelegateImpl implements CommonSerivceDelegate {
 				user.setPassWord(rawWord);
 				user.setEmail(email);
 				user.setSalt(salt);
-				int result = userDao.register(user);
+				int result = userMapper.register(user);
 				if(result>0) {
 					response.setStatus("success");
 					response.setMessage("恭喜您,注册成功！");
@@ -151,9 +149,9 @@ public class CommonSerivceDelegateImpl implements CommonSerivceDelegate {
 		try {
 			int no = Integer.parseInt(pageNo);
 			int size = Integer.parseInt(pageSize);
-			List<Product> products = commodityDao.getProductList(filterName, classify, sortKey,
+			List<Product> products = commodityMapper.getProductList(filterName, classify, sortKey,
 					sortDir, brand,no, size);
-			response.setTotal_count(commodityDao.getProductListCount(filterName, classify, brand));
+			response.setTotal_count(commodityMapper.getProductListCount(filterName, classify, brand));
 			response.setEntities(products);
 			response.setResult("success");
 			response.setMessage("success");

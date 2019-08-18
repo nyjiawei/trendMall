@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fjw.coolerMall.mapper.UserDao">
+<mapper namespace="com.fjw.coolerMall.mapper.UserMapper">
 	<resultMap type="com.fjw.coolerMall.entry.User" id="user">
 		<id property="id" column="id" />
   		<result property="userName" column="userName"/>
@@ -16,10 +16,9 @@
     </select>
     
     <insert id="register" parameterType="com.fjw.coolerMall.entry.User">
-    	INSERT INTO t_user (ID,USERNAME,PASSWORD,NICKNAME,EMAIL,SALT)
+    	INSERT INTO t_user (USERNAME,PASSWORD,NICKNAME,EMAIL,SALT)
     	VALUES
     	(
-    		replace(uuid(),"-",""),
     		#{user.userName,jdbcType=VARCHAR},
     		#{user.passWord,jdbcType=VARCHAR},
     		#{user.nickName,jdbcType=VARCHAR},

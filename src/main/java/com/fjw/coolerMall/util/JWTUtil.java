@@ -20,7 +20,7 @@ import java.util.UUID;
 public class JWTUtil {
 
     //过期时间设置为15分钟
-    private static final long EXPIRE_TIME = 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 40 * 60 * 1000;
 
     //token私钥(这里选用的是一个UUID)
     private static final String TOKEN_SECRET = "02ace2efd64147e8b60f9e734d09eb64";
@@ -35,7 +35,7 @@ public class JWTUtil {
      * @param userId 用户ID
      * @return 加密的token
      */
-    public static String createToken (String userName,String userId) {
+    public static String createToken (String userName,Integer userId) {
         try {
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);

@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterRequest implements Serializable {
+	private static final long serialVersionUID = 8431297676353040322L;
+
 	@JsonProperty("userName")
 	private String userName;
 	

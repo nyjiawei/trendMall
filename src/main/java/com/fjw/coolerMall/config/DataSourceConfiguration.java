@@ -3,9 +3,7 @@ package com.fjw.coolerMall.config;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.Properties;
-
 import javax.sql.DataSource;
-
 import com.alibaba.druid.pool.DruidDataSource;
 import com.fjw.coolerMall.util.PropertiesUtil;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;

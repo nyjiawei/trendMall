@@ -5,7 +5,8 @@ public enum StatusCode {
     INVALID_PARAM(401,"未授权"),
     SERVICE_NOT_FOUND(404,"服务器端无法找到所请求的资源"),
     SERVICE_ERROR(500, "内部服务器错误"),
-    SERVICE_OFF(405,"资源被禁止");
+    SERVICE_OFF(405,"资源被禁止"),
+    REQUEST_ERROR(400,"错误的请求");
 
     private int code;
     private String desc;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fjw.coolerMall.mapper.DeliveryDao">
+<mapper namespace="com.fjw.coolerMall.mapper.DeliveryMapper">
 
 	<resultMap type="com.fjw.coolerMall.model.request.Delivery" id="delivery">
 		<id property="id" column="id" />

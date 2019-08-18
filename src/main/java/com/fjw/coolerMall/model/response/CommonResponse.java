@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class CommonResponse implements Serializable {
 	private static final long serialVersionUID = -4707714419984617242L;
+
 	private String message = "SUCCESS";
 
 	private int code = 200;

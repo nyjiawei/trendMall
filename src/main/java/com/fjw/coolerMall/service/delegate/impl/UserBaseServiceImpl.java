@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-import com.fjw.coolerMall.mapper.DeliveryDao;
-import com.fjw.coolerMall.mapper.OrderDao;
+import com.fjw.coolerMall.Enum.OrderStatus;
+import com.fjw.coolerMall.entry.Order;
+import com.fjw.coolerMall.mapper.DeliveryMapper;
+import com.fjw.coolerMall.mapper.OrderMapper;
 import com.fjw.coolerMall.model.request.AddDeliveryRequest;
 import com.fjw.coolerMall.model.request.Delivery;
 import com.fjw.coolerMall.model.request.OrderInfo;
@@ -16,9 +18,11 @@ import com.fjw.coolerMall.model.response.DeliveryResponse;
 import com.fjw.coolerMall.model.response.OrderResponse;
 import com.fjw.coolerMall.service.delegate.UserSerivceDelegate;
 import com.fjw.coolerMall.util.OrderUtil;
+import com.fjw.coolerMall.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
@@ -35,14 +39,17 @@ public class UserBaseServiceImpl implements UserSerivceDelegate {
 	Logger log = LogManager.getLogger(UserBaseServiceImpl.class);
 	
 	@Autowired
-	private DeliveryDao deliveryDao;
+	private DeliveryMapper deliveryMapper;
 
 	@Autowired
-	private OrderDao orderDao;
+	private OrderMapper orderMapper;
 	
 	@Autowired
 	private HttpServletRequest request;
-	
+
+	@Autowired
+	private RedisUtil redisUtil;
+
 	@Override
 	public CommonResponse updateOrCreateDeliveryInfo(AddDeliveryRequest deliveryInfo) {
 		String userName = request.getHeader("x-user-name");
@@ -53,10 +60,10 @@ public class UserBaseServiceImpl implements UserSerivceDelegate {
 			Delivery delivery = formatDeliveryRequest(deliveryInfo);
 			if (StringUtils.isEmpty(deliveryInfo.getId())) {
 				//id为空新增
-				deliveryDao.createDelivery(delivery,userName);
+				deliveryMapper.createDelivery(delivery,userName);
 			} else {
 				//有id说明是修改
-				deliveryDao.updateDelivery(delivery);
+				deliveryMapper.updateDelivery(delivery);
 			} 
 			return new CommonResponse();
 		} catch (Exception e) {
@@ -89,7 +96,6 @@ public class UserBaseServiceImpl implements UserSerivceDelegate {
 		delivery.setOwnerId(deliveryInfo.getName());
 		delivery.setPersonName(deliveryInfo.getName());
 		delivery.setPhoneNumber(deliveryInfo.getPhone());
-		
 		return delivery;
 	}
 
@@ -99,7 +105,7 @@ public class UserBaseServiceImpl implements UserSerivceDelegate {
 			return getErrorResponse("invalid param!");
 		}
 		try {
-			deliveryDao.deleteDelivery(deliveryId);
+			deliveryMapper.deleteDelivery(deliveryId);
 			return new CommonResponse();
 		} catch (Exception e) {
 			log.error("deleteDelivery was failed! the reason:" + e.toString());
@@ -117,7 +123,7 @@ public class UserBaseServiceImpl implements UserSerivceDelegate {
 			return deliveryResponse;
 		}
 		try {
-			List<Delivery> deliveryList = deliveryDao.getDeliveryResult(user);
+			List<Delivery> deliveryList = deliveryMapper.getDeliveryResult(user);
 			deliveryResponse.setResult("OK");
 			deliveryResponse.setMessage("success");
 			deliveryResponse.setDeliveryList(deliveryList);
@@ -152,10 +158,16 @@ public class UserBaseServiceImpl implements UserSerivceDelegate {
 			productList.get(i).put("count", count);
 		}
 		try {
+			Order order = new Order();
+			BeanUtils.copyProperties(orderRequest, order);
 			//获取一个UUID
 			String commodityId = OrderUtil.getFormatUUId();
-			orderDao.createOrder(commodityId, orderRequest, user);
-			orderDao.insertOrderCommodity(commodityId, productList);
+			order.setOwnerId(user);
+			order.setCommodityId(commodityId);
+			orderMapper.createOrder(order);
+			orderMapper.insertOrderCommodity(commodityId, productList);
+			log.info("订单号：" + order.getId());
+			redisUtil.set(order.getId().toString(), OrderStatus.WAITING_PAY,5);
 		} catch (DataAccessException e) {
 			log.error("commitOrder was failed! the reason:" + e.toString());
 			getErrorResponse(e.getMessage());
@@ -171,10 +183,10 @@ public class UserBaseServiceImpl implements UserSerivceDelegate {
 			result.setMessage("invalid param!");
 			return result;
 		}
-		List<OrderInfo> orderList = orderDao.getOrderList(status, user, date, orderNo);
+		List<OrderInfo> orderList = orderMapper.getOrderList(status, user, date, orderNo);
 		if (orderList.size()>0) {
 			for (OrderInfo orderInfo : orderList) {
-				List<Map<String, Object>> orderCommodityList = orderDao.getOrderCommodityList(orderInfo.getCommodityId());
+				List<Map<String, Object>> orderCommodityList = orderMapper.getOrderCommodityList(orderInfo.getCommodityId());
 				orderInfo.setProductList(orderCommodityList);
 			}
 			result.setEntities(orderList);
@@ -190,7 +202,7 @@ public class UserBaseServiceImpl implements UserSerivceDelegate {
 			return getErrorResponse("invalid param!");
 		}
 		try {
-			orderDao.deleteOrder(id);
+			orderMapper.deleteOrder(id);
 		} catch (DataAccessException e) {
 			log.error("deleteOrderById was failed! the reason:" + e.toString());
 		}

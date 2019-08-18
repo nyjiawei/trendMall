@@ -1,14 +1,12 @@
 package com.fjw.coolerMall.mapper;
 
 import java.util.List;
-
-
 import com.fjw.coolerMall.model.request.Product;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 
 
-public interface CommodityDao {
+public interface CommodityMapper {
 
 	public List<Product> getProductList(@Param(value = "filterName")String filterName,
 										@Param(value = "classify")String classify, @Param(value = "sortKey")String sortKey,

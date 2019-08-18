@@ -1,13 +1,15 @@
 package com.fjw.coolerMall.entry;
-
+import java.io.Serializable;
 
 /**
  * user表
  * @author jiawei
  * 2018年7月29日下午6:26:22
  */
-public class User {
-	private String id;
+
+public class User implements Serializable {
+	private static final long serialVersionUID = -2065084729621764539L;
+	private Integer id;
 	private String userName;  //登录名
 	private String passWord;  //密码
 	private String nickName;  //密码
@@ -15,10 +17,10 @@ public class User {
 	private String email;
 	private String salt;
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getUserName() {

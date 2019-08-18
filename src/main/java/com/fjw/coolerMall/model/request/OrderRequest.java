@@ -19,10 +19,10 @@ public class OrderRequest implements Serializable{
 	
 	@JsonProperty("person")
 	private String person;
-	
+
 	@JsonProperty("phoneNumber")
 	private String phoneNumber;
-	
+
 	@JsonProperty("totalPrices")
 	private double totalPrices;
 	

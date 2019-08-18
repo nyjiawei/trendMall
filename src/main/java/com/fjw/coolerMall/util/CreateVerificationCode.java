@@ -1,27 +1,20 @@
 package com.fjw.coolerMall.util;
 
 import java.util.Random;
-
-
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-
 /**
  * 验证码图片生成工具
  * @author jiawei
- *
  */
 
 public class CreateVerificationCode{
@@ -84,10 +77,8 @@ public class CreateVerificationCode{
             g.drawRect(random.nextInt(width), random.nextInt(height), 1, 1);  
         }  
     
-        ServletOutputStream out = response.getOutputStream();  
-        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);  
-        encoder.encode(bi);  
-        out.flush();  
+        ServletOutputStream out = response.getOutputStream();
+        ImageIO.write(bi,"JPEG", out);
     }  
 
 }
